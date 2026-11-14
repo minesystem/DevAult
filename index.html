@@ -4,22 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="DevVault - Build. Share. Connect.">
+    <meta name="description" content="DevVault - Build. Share. Connect. Discover projects, share code, and connect with developers.">
+    <meta name="theme-color" content="#08090f">
     <title>DevVault — Developer Community</title>
 
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="css/style.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
 
+<body>
     <div id="app">
+
         <header class="topbar">
-            <a href="#" class="brand">
-                <span class="brand-icon">&lt;/&gt;</span>
-                <span>DevVault</span>
+            <a href="index.html" class="brand">
+                <img src="assets/logo.svg" alt="DevVault" width="180">
             </a>
 
             <nav class="desktop-nav">
@@ -31,11 +35,12 @@
 
             <div class="header-actions">
                 <a href="#login" class="login-link">Log in</a>
-                <a href="#signup" class="signup-btn">Get Started</a>
+                <a href="dashboard.html" class="signup-btn">Open Dashboard</a>
             </div>
         </header>
 
         <main id="home">
+
             <section class="hero">
                 <div class="hero-badge">
                     <span class="status-dot"></span>
@@ -48,14 +53,19 @@
                 </h1>
 
                 <p>
-                    Discover projects, share your code, connect with
-                    developers, and build something extraordinary.
-                    Your developer journey starts here.
+                    Discover projects, share your code, connect with developers,
+                    and build something extraordinary. Your developer journey
+                    starts here.
                 </p>
 
                 <div class="hero-actions">
-                    <a href="#signup" class="primary-btn">Join DevVault →</a>
-                    <a href="#explore" class="secondary-btn">Explore Projects</a>
+                    <a href="dashboard.html" class="primary-btn">
+                        Enter DevVault →
+                    </a>
+
+                    <a href="#explore" class="secondary-btn">
+                        Explore Projects
+                    </a>
                 </div>
 
                 <div class="hero-stats">
@@ -63,10 +73,12 @@
                         <strong>01</strong>
                         <span>One Community</span>
                     </div>
+
                     <div>
                         <strong>∞</strong>
                         <span>Possibilities</span>
                     </div>
+
                     <div>
                         <strong>DEV</strong>
                         <span>Driven Innovation</span>
@@ -82,6 +94,7 @@
                 </div>
 
                 <div class="feature-grid">
+
                     <article class="feature-card">
                         <div class="feature-icon">&lt;/&gt;</div>
                         <h3>Share Code</h3>
@@ -105,30 +118,50 @@
                         <h3>Collaborate</h3>
                         <p>Share knowledge and build together.</p>
                     </article>
+
                 </div>
             </section>
 
             <section class="community-section" id="community">
                 <span>YOUR NEXT CHAPTER STARTS HERE</span>
-                <h2>Made for developers.<br>Built by community.</h2>
-                <a href="#signup" class="primary-btn">Get Started →</a>
+
+                <h2>
+                    Made for developers.<br>
+                    Built by community.
+                </h2>
+
+                <a href="dashboard.html" class="primary-btn">
+                    Explore DevVault →
+                </a>
             </section>
 
             <section id="discussions" class="footer-message">
                 <h2>DevVault</h2>
                 <p>Code together. Build the future.</p>
+
+                <a href="dashboard.html" class="secondary-btn">
+                    Visit Dashboard
+                </a>
             </section>
+
         </main>
 
         <footer>
-            <p>© 2026 DevVault. All rights reserved.</p>
+            <p>© <span id="current-year">2026</span> DevVault. All rights reserved.</p>
             <p>Build. Share. Connect.</p>
         </footer>
+
     </div>
 
     <script src="js/app.js"></script>
+
     <script>
-        if (window.lucide) lucide.createIcons();
+        document.getElementById("current-year").textContent =
+            new Date().getFullYear();
+
+        if (window.lucide) {
+            lucide.createIcons();
+        }
     </script>
 
 </body>
