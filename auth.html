@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090f">
+    <title>Login & Signup — DevVault</title>
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-container {
+            flex: 1;
+            display: grid;
+            place-items: center;
+            padding: 40px 18px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 35px;
+            background: #11121c;
+            border: 1px solid #29293b;
+            border-radius: 18px;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .auth-logo img {
+            max-width: 180px;
+        }
+
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 5px;
+            background: #090a12;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .auth-tabs button {
+            padding: 11px;
+            border: none;
+            border-radius: 7px;
+            background: transparent;
+            color: #9999ae;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .auth-tabs button.active {
+            background: #302044;
+            color: white;
+        }
+
+        .auth-heading {
+            color: white;
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .auth-description {
+            color: #9292aa;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #d1d1df;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px;
+            box-sizing: border-box;
+            background: #090a12;
+            border: 1px solid #303047;
+            border-radius: 9px;
+            color: white;
+            font: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #a855f7;
+        }
+
+        .password-wrap {
+            position: relative;
+        }
+
+        .password-wrap input {
+            padding-right: 65px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            color: #a78bfa;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .auth-submit {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(120deg, #9333ea, #3b82f6);
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 7px;
+        }
+
+        .auth-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .auth-message {
+            display: none;
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .auth-message.error {
+            display: block;
+            color: #ffb4b4;
+            background: #351b25;
+        }
+
+        .auth-message.success {
+            display: block;
+            color: #a7f3d0;
+            background: #123329;
+        }
+
+        .auth-note {
+            text-align: center;
+            color: #77778c;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 22px;
+        }
+
+        .auth-note a {
+            color: #c084fc;
+            text-decoration: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 25px 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+    <a href="index.html" class="brand">
+        <img src="assets/logo.svg" alt="DevVault" width="160">
+    </a>
+
+    <div class="header-actions">
+        <a href="index.html" class="login-link">Back Home</a>
+    </div>
+</header>
+
+<main class="auth-container">
+
+    <section class="auth-card">
+
+        <div class="auth-logo">
+            <img src="assets/logo.svg" alt="DevVault">
+        </div>
+
+        <div class="auth-tabs">
+            <button type="button" id="login-tab" class="active">Log In</button>
+            <button type="button" id="signup-tab">Sign Up</button>
+        </div>
+
+        <form id="login-form">
+            <h1 class="auth-heading">Welcome back.</h1>
+            <p class="auth-description">Log in to continue your developer journey.</p>
+
+            <div class="form-group">
+                <label for="login-email">Email address</label>
+                <input type="email" id="login-email" autocomplete="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <div class="password-wrap">
+                    <input type="password" id="login-password" autocomplete="current-password" required>
+                    <button type="button" class="show-password" data-target="login-password">Show</button>
+                </div>
+            </div>
+
+            <button class="auth-submit" type="submit">Log In →</button>
+        </form>
+
+        <form id="signup-form" class="hidden">
+            <h1 class="auth-heading">Join DevVault.</h1>
+            <p class="auth-description">Create your developer account to get started.</p>
+
+            <div class="form-group">
+                <label for="signup-name">Display name</label>
+                <input type="text" id="signup-name" minlength="2" maxlength="40" autocomplete="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-username">Username</label>
+                <input type="text" id="signup-username" minlength="3" maxlength="20" pattern="[A-Za-z0-9_-]+" autocomplete="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-email">Email address</label>
+                <input type="email" id="signup-email" autocomplete="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <div class="password-wrap">
+                    <input type="password" id="signup-password" minlength="8" autocomplete="new-password" required>
+                    <button type="button" class="show-password" data-target="signup-password">Show</button>
+                </div>
+            </div>
+
+            <button class="auth-submit" type="submit">Create Account →</button>
+        </form>
+
+        <div id="auth-message" class="auth-message" role="status" aria-live="polite"></div>
+
+        <p class="auth-note">
+            By continuing, you agree to use DevVault respectfully.
+            <br>
+            <a href="index.html">Return to homepage</a>
+        </p>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 DevVault. Build. Share. Connect.</p>
+</footer>
+
+<script>
+    const loginTab = document.getElementById("login-tab");
+    const signupTab = document.getElementById("signup-tab");
+    const loginForm = document.getElementById("login-form");
+    const signupForm = document.getElementById("signup-form");
+    const message = document.getElementById("auth-message");
+
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = "auth-message " + type;
+    }
+
+    function clearMessage() {
+        message.textContent = "";
+        message.className = "auth-message";
+    }
+
+    function switchTab(mode) {
+        clearMessage();
+
+        const isLogin = mode === "login";
+
+        loginForm.classList.toggle("hidden", !isLogin);
+        signupForm.classList.toggle("hidden", isLogin);
+
+        loginTab.classList.toggle("active", isLogin);
+        signupTab.classList.toggle("active", !isLogin);
+    }
+
+    loginTab.addEventListener("click", () => switchTab("login"));
+    signupTab.addEventListener("click", () => switchTab("signup"));
+
+    document.querySelectorAll(".show-password").forEach(button => {
+        button.addEventListener("click", () => {
+            const field = document.getElementById(button.dataset.target);
+            const showing = field.type === "text";
+
+            field.type = showing ? "password" : "text";
+            button.textContent = showing ? "Show" : "Hide";
+        });
+    });
+
+    signupForm.addEventListener("submit", event => {
+        event.preventDefault();
+
+        if (!signupForm.reportValidity()) return;
+
+        showMessage(
+            "The signup form is ready, but account creation is not connected yet. A secure authentication backend is required.",
+            "error"
+        );
+    });
+
+    loginForm.addEventListener("submit", event => {
+        event.preventDefault();
+
+        if (!loginForm.reportValidity()) return;
+
+        showMessage(
+            "Login is not connected yet. Your account must be verified by a secure authentication backend.",
+            "error"
+        );
+    });
+</script>
+
+</body>
+</html>
