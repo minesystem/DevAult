@@ -1,0 +1,442 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DevVault — Your developer community dashboard.">
+    <title>Dashboard — DevVault</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .dashboard {
+            max-width: 1250px;
+            margin: auto;
+            padding: 35px 24px;
+            display: grid;
+            grid-template-columns: 220px minmax(0, 1fr) 260px;
+            gap: 24px;
+        }
+
+        .dash-panel {
+            background: #11121c;
+            border: 1px solid #252638;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .dash-sidebar, .dash-right {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .dash-brand {
+            font-size: 23px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .dash-brand span { color: #a855f7; }
+
+        .dash-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .dash-nav a {
+            color: #a6a6bd;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        .dash-nav a:hover, .dash-nav a.active {
+            background: #242039;
+            color: white;
+        }
+
+        .dash-main { min-width: 0; }
+
+        .dash-heading {
+            margin-bottom: 22px;
+        }
+
+        .dash-heading h1 {
+            color: white;
+            font-size: 28px;
+            margin: 0 0 7px;
+        }
+
+        .dash-heading p, .muted {
+            color: #9292aa;
+            font-size: 13px;
+        }
+
+        .welcome-card {
+            padding: 26px;
+            border-radius: 16px;
+            background: linear-gradient(120deg, #572c91, #263c80);
+            margin-bottom: 20px;
+        }
+
+        .welcome-card h2 {
+            color: white;
+            margin: 0 0 8px;
+        }
+
+        .welcome-card p {
+            color: #e1dafa;
+            font-size: 14px;
+        }
+
+        .dash-btn {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 9px;
+            background: white;
+            color: #171326;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .feed-title {
+            color: white;
+            font-size: 19px;
+            margin: 25px 0 14px;
+        }
+
+        .post {
+            background: #11121c;
+            border: 1px solid #252638;
+            border-radius: 14px;
+            padding: 19px;
+            margin-bottom: 14px;
+        }
+
+        .post-top {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .avatar {
+            width: 39px;
+            height: 39px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            color: white;
+            font-weight: 800;
+        }
+
+        .post-name {
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .post-time {
+            color: #85859d;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .post h3 {
+            color: white;
+            font-size: 16px;
+            margin: 18px 0 8px;
+        }
+
+        .post p {
+            color: #a6a6bd;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 18px;
+            border-top: 1px solid #252638;
+            margin-top: 15px;
+            padding-top: 13px;
+        }
+
+        .post-actions button {
+            border: 0;
+            background: none;
+            color: #a6a6bd;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .post-actions button:hover,
+        .post-actions button.liked {
+            color: #c084fc;
+        }
+
+        .side-title {
+            color: white;
+            font-size: 15px;
+            margin: 0 0 15px;
+        }
+
+        .trend {
+            padding: 11px 0;
+            border-bottom: 1px solid #252638;
+        }
+
+        .trend:last-child { border-bottom: 0; }
+
+        .trend strong {
+            display: block;
+            color: white;
+            font-size: 13px;
+        }
+
+        .trend span {
+            color: #85859d;
+            font-size: 11px;
+        }
+
+        .developer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 13px 0;
+        }
+
+        .developer-info strong {
+            color: white;
+            display: block;
+            font-size: 12px;
+        }
+
+        .developer-info span {
+            color: #85859d;
+            font-size: 11px;
+        }
+
+        .follow-btn {
+            margin-left: auto;
+            background: #28203d;
+            color: #c084fc;
+            border: 0;
+            border-radius: 7px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .dash-footer {
+            text-align: center;
+            color: #77778c;
+            font-size: 11px;
+            padding: 25px;
+        }
+
+        @media (max-width: 950px) {
+            .dashboard {
+                grid-template-columns: 190px minmax(0, 1fr);
+            }
+            .dash-right { display: none; }
+        }
+
+        @media (max-width: 650px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                padding: 20px 14px;
+            }
+            .dash-sidebar { display: none; }
+            .dash-heading h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a href="index.html" class="brand">
+            <img src="assets/logo.svg" alt="DevVault" width="160">
+        </a>
+        <div class="header-actions">
+            <a href="index.html" class="login-link">Home</a>
+            <a href="#profile" class="signup-btn">My Profile</a>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <aside class="dash-sidebar">
+            <div class="dash-panel">
+                <a href="dashboard.html" class="dash-brand">Dev<span>Vault</span></a>
+                <nav class="dash-nav">
+                    <a href="dashboard.html" class="active">⌂ Dashboard</a>
+                    <a href="#feed">◉ Activity Feed</a>
+                    <a href="#projects">⌘ Projects</a>
+                    <a href="#developers">♙ Developers</a>
+                    <a href="#discussions">☷ Discussions</a>
+                    <a href="#bookmarks">☆ Bookmarks</a>
+                    <a href="#settings">⚙ Settings</a>
+                </nav>
+            </div>
+            <div class="dash-panel">
+                <h3 class="side-title">Your workspace</h3>
+                <p class="muted">Your developer journey starts here.</p>
+            </div>
+        </aside>
+
+        <section class="dash-main">
+            <div class="dash-heading">
+                <h1>Dashboard</h1>
+                <p>Welcome to your developer community.</p>
+            </div>
+
+            <div class="welcome-card">
+                <h2>Build something great.</h2>
+                <p>Discover projects, share ideas, and connect with developers.</p>
+                <a href="#projects" class="dash-btn">Explore Projects →</a>
+            </div>
+
+            <h2 class="feed-title" id="feed">Community Feed</h2>
+
+            <article class="post">
+                <div class="post-top">
+                    <div class="avatar">DV</div>
+                    <div>
+                        <div class="post-name">DevVault Community</div>
+                        <div class="post-time">Community update</div>
+                    </div>
+                </div>
+                <h3>Welcome to DevVault!</h3>
+                <p>This is where developers share projects, exchange ideas, and learn from one another. Your next big project could start here.</p>
+                <div class="post-actions">
+                    <button class="like-btn">♡ Like <span>0</span></button>
+                    <button class="comment-btn">◯ Comment</button>
+                    <button class="save-btn">☆ Save</button>
+                </div>
+            </article>
+
+            <article class="post">
+                <div class="post-top">
+                    <div class="avatar">JS</div>
+                    <div>
+                        <div class="post-name">JavaScript Developer</div>
+                        <div class="post-time">Sample community post</div>
+                    </div>
+                </div>
+                <h3>What are you building this week?</h3>
+                <p>Share your current project, the technologies you're learning, or an idea you'd love to bring to life.</p>
+                <div class="post-actions">
+                    <button class="like-btn">♡ Like <span>0</span></button>
+                    <button class="comment-btn">◯ Comment</button>
+                    <button class="save-btn">☆ Save</button>
+                </div>
+            </article>
+
+            <h2 class="feed-title" id="projects">Projects</h2>
+            <div class="post">
+                <h3>Discover developer projects</h3>
+                <p>Project discovery will be connected to the GitHub API in a future update.</p>
+            </div>
+
+            <h2 class="feed-title" id="discussions">Discussions</h2>
+            <div class="post">
+                <h3>Join the conversation</h3>
+                <p>Community discussions will be available when the backend is connected.</p>
+            </div>
+        </section>
+
+        <aside class="dash-right">
+            <div class="dash-panel">
+                <h3 class="side-title">Trending Topics</h3>
+                <div class="trend">
+                    <strong>#JavaScript</strong>
+                    <span>Programming</span>
+                </div>
+                <div class="trend">
+                    <strong>#WebDevelopment</strong>
+                    <span>Development</span>
+                </div>
+                <div class="trend">
+                    <strong>#OpenSource</strong>
+                    <span>Community</span>
+                </div>
+                <div class="trend">
+                    <strong>#Python</strong>
+                    <span>Programming</span>
+                </div>
+            </div>
+
+            <div class="dash-panel" id="developers">
+                <h3 class="side-title">Suggested Developers</h3>
+                <div class="developer">
+                    <div class="avatar">A</div>
+                    <div class="developer-info">
+                        <strong>Alex Developer</strong>
+                        <span>Frontend Developer</span>
+                    </div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="developer">
+                    <div class="avatar">M</div>
+                    <div class="developer-info">
+                        <strong>Morgan Codes</strong>
+                        <span>Python Developer</span>
+                    </div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+                <div class="developer">
+                    <div class="avatar">J</div>
+                    <div class="developer-info">
+                        <strong>Jordan Builds</strong>
+                        <span>Open Source</span>
+                    </div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="dash-footer">
+        © 2026 DevVault. Build. Share. Connect.
+    </footer>
+
+    <script>
+        document.querySelectorAll(".like-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                const count = button.querySelector("span");
+                const liked = button.classList.toggle("liked");
+                count.textContent = Number(count.textContent) + (liked ? 1 : -1);
+                button.firstChild.textContent = liked ? "♥ Like " : "♡ Like ";
+            });
+        });
+
+        document.querySelectorAll(".save-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                const saved = button.classList.toggle("liked");
+                button.textContent = saved ? "★ Saved" : "☆ Save";
+            });
+        });
+
+        document.querySelectorAll(".follow-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                const following = button.textContent === "Following";
+                button.textContent = following ? "Follow" : "Following";
+            });
+        });
+
+        document.querySelectorAll(".comment-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                alert("Comments will be available when the community backend is connected.");
+            });
+        });
+    </script>
+</body>
+</html>
