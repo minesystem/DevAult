@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090f">
+    <title>Explore Projects — DevVault</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        .explorer {
+            max-width: 1150px;
+            margin: auto;
+            padding: 45px 22px;
+        }
+
+        .explorer-heading {
+            margin-bottom: 28px;
+        }
+
+        .explorer-heading span {
+            color: #a855f7;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .explorer-heading h1 {
+            color: white;
+            font-size: 36px;
+            margin: 12px 0;
+        }
+
+        .explorer-heading p {
+            color: #9999ae;
+            font-size: 14px;
+        }
+
+        .search-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-area input {
+            flex: 1;
+            min-width: 0;
+            padding: 15px;
+            background: #11121c;
+            border: 1px solid #303047;
+            border-radius: 10px;
+            color: white;
+            font: inherit;
+            outline: none;
+        }
+
+        .search-area input:focus {
+            border-color: #a855f7;
+        }
+
+        .search-area button {
+            padding: 0 22px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            background: linear-gradient(120deg, #9333ea, #3b82f6);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 25px;
+        }
+
+        .filter-btn {
+            padding: 9px 14px;
+            background: #151522;
+            color: #aaaac0;
+            border: 1px solid #303047;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            color: white;
+            background: #382052;
+            border-color: #a855f7;
+        }
+
+        .results-info {
+            color: #9292aa;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .project-card {
+            background: #11121c;
+            border: 1px solid #252638;
+            border-radius: 14px;
+            padding: 20px;
+            min-width: 0;
+        }
+
+        .project-card h3 {
+            color: #c084fc;
+            font-size: 16px;
+            overflow-wrap: anywhere;
+        }
+
+        .project-card h3 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .project-card h3 a:hover {
+            text-decoration: underline;
+        }
+
+        .project-card p {
+            color: #a3a3b8;
+            font-size: 13px;
+            line-height: 1.7;
+            min-height: 42px;
+        }
+
+        .project-owner {
+            color: #77778f;
+            font-size: 12px;
+        }
+
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 18px;
+            padding-top: 13px;
+            border-top: 1px solid #29293b;
+            color: #aaaac0;
+            font-size: 12px;
+        }
+
+        .project-language {
+            color: #c084fc;
+        }
+
+        .state-message {
+            grid-column: 1 / -1;
+            padding: 35px 15px;
+            text-align: center;
+            color: #9999ae;
+            background: #11121c;
+            border: 1px solid #252638;
+            border-radius: 14px;
+        }
+
+        .state-message strong {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 650px) {
+            .explorer-heading h1 {
+                font-size: 28px;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-area button {
+                padding: 0 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <a href="index.html" class="brand">
+            <img src="assets/logo.svg" alt="DevVault" width="160">
+        </a>
+
+        <nav class="desktop-nav">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="projects.html">Explore</a>
+        </nav>
+
+        <div class="header-actions">
+            <a href="dashboard.html" class="signup-btn">Dashboard</a>
+        </div>
+    </header>
+
+    <main class="explorer">
+        <div class="explorer-heading">
+            <span>DISCOVER SOMETHING NEW</span>
+            <h1>Explore Projects.</h1>
+            <p>Find open-source projects and discover what developers are building.</p>
+        </div>
+
+        <form class="search-area" id="search-form">
+            <input
+                type="search"
+                id="search-input"
+                placeholder="Search repositories, languages, topics..."
+                aria-label="Search GitHub repositories"
+                required
+            >
+            <button type="submit" id="search-button">Search</button>
+        </form>
+
+        <div class="filters">
+            <button class="filter-btn active" data-query="stars:>100">Popular</button>
+            <button class="filter-btn" data-query="language:javascript">JavaScript</button>
+            <button class="filter-btn" data-query="language:python">Python</button>
+            <button class="filter-btn" data-query="language:html">HTML</button>
+            <button class="filter-btn" data-query="language:typescript">TypeScript</button>
+        </div>
+
+        <div class="results-info" id="results-info">
+            Discovering popular repositories...
+        </div>
+
+        <section class="project-grid" id="project-grid">
+            <div class="state-message">
+                <strong>Loading projects...</strong>
+                Please wait.
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 DevVault. Build. Share. Connect.</p>
+    </footer>
+
+    <script>
+        const grid = document.getElementById("project-grid");
+        const info = document.getElementById("results-info");
+        const form = document.getElementById("search-form");
+        const input = document.getElementById("search-input");
+        const searchButton = document.getElementById("search-button");
+        const filters = document.querySelectorAll(".filter-btn");
+
+        let currentQuery = "stars:>100";
+        let requestNumber = 0;
+
+        function escapeHTML(value = "") {
+            return String(value).replace(/[&<>"']/g, char => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[char]);
+        }
+
+        function showMessage(title, message) {
+            grid.innerHTML = `
+                <div class="state-message">
+                    <strong>${escapeHTML(title)}</strong>
+                    ${escapeHTML(message)}
+                </div>
+            `;
+        }
+
+        function createCard(repo) {
+            const description = repo.description || "No description provided.";
+            const language = repo.language || "Not specified";
+            const updated = new Date(repo.updated_at).toLocaleDateString();
+
+            return `
+                <article class="project-card">
+                    <div class="project-owner">
+                        ${escapeHTML(repo.owner.login)}
+                    </div>
+
+                    <h3>
+                        <a href="${escapeHTML(repo.html_url)}"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            ${escapeHTML(repo.name)}
+                        </a>
+                    </h3>
+
+                    <p>${escapeHTML(description)}</p>
+
+                    <div class="project-meta">
+                        <span class="project-language">
+                            ● ${escapeHTML(language)}
+                        </span>
+                        <span>★ ${Number(repo.stargazers_count).toLocaleString()}</span>
+                        <span>⑂ ${Number(repo.forks_count).toLocaleString()}</span>
+                        <span>Updated ${escapeHTML(updated)}</span>
+                    </div>
+                </article>
+            `;
+        }
+
+        async function searchRepositories(query) {
+            const thisRequest = ++requestNumber;
+
+            currentQuery = query;
+            info.textContent = "Searching GitHub...";
+            searchButton.disabled = true;
+            searchButton.textContent = "Searching...";
+            showMessage("Finding projects", "Connecting to the GitHub public API...");
+
+            try {
+                const url = new URL("https://api.github.com/search/repositories");
+                url.searchParams.set("q", query);
+                url.searchParams.set("sort", "stars");
+                url.searchParams.set("order", "desc");
+                url.searchParams.set("per_page", "12");
+
+                const response = await fetch(url, {
+                    headers: {
+                        "Accept": "application/vnd.github+json"
+                    }
+                });
+
+                if (thisRequest !== requestNumber) return;
+
+                if (response.status === 403 || response.status === 429) {
+                    throw new Error("GitHub's search limit has been reached. Please wait and try again.");
+                }
+
+                if (!response.ok) {
+                    throw new Error("GitHub could not complete the search. Please try again.");
+                }
+
+                const data = await response.json();
+
+                if (!data.items || data.items.length === 0) {
+                    info.textContent = "No repositories found.";
+                    showMessage("No results", "Try a different search term.");
+                    return;
+                }
+
+                grid.innerHTML = data.items.map(createCard).join("");
+                info.textContent = `${data.total_count.toLocaleString()} repositories found. Showing up to 12 results.`;
+
+            } catch (error) {
+                if (thisRequest !== requestNumber) return;
+                info.textContent = "Search unavailable.";
+                showMessage("Something went wrong", error.message);
+            } finally {
+                if (thisRequest === requestNumber) {
+                    searchButton.disabled = false;
+                    searchButton.textContent = "Search";
+                }
+            }
+        }
+
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+
+            const searchTerm = input.value.trim();
+
+            if (!searchTerm) return;
+
+            filters.forEach(button => button.classList.remove("active"));
+            searchRepositories(searchTerm);
+        });
+
+        filters.forEach(button => {
+            button.addEventListener("click", () => {
+                filters.forEach(item => item.classList.remove("active"));
+                button.classList.add("active");
+                input.value = "";
+                searchRepositories(button.dataset.query);
+            });
+        });
+
+        searchRepositories(currentQuery);
+    </script>
+</body>
+</html>
